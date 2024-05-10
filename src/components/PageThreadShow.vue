@@ -56,6 +56,11 @@ export default {
   },
 
   computed: {
+    /**
+     * Computes thread based on id passed as route parameter
+     *
+     * @return {Object} - Thread object with all its properties.
+     */
     thread () {
       return this.threads.find(thread => thread.id === this.id)
     }
