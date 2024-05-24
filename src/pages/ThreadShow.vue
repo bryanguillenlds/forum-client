@@ -4,27 +4,20 @@
 
     <PostList :posts="threadPosts"/>
 
-    <div class="col-full">
-      <form @submit.prevent="addPost">
-        <div class="form-group">
-          <textarea v-model="newPostText" cols="30" rows="10" class="form-input"/>
-        </div>
-        <div class="form-actions">
-          <button class="btn-blue">Submit post</button>
-        </div>
-      </form>
-    </div>
+    <PostEditor @submitPost="save"/>
   </div>
 </template>
 
 <script>
 import sourceData from '@/data.json'
 import PostList from '@/components/PostList.vue'
+import PostEditor from '@/components/PostEditor.vue'
 
 export default {
   name: 'ThreadShow',
 
   components: {
+    PostEditor,
     PostList
   },
 
@@ -38,8 +31,7 @@ export default {
   data () {
     return {
       threads: sourceData.threads,
-      posts: sourceData.posts,
-      newPostText: ''
+      posts: sourceData.posts
     }
   },
 
@@ -59,12 +51,12 @@ export default {
   },
 
   methods: {
-    addPost () {
+    save (postText) {
       const postId = 'ggqq' + Math.random()
 
       const post = {
         id: postId,
-        text: this.newPostText,
+        text: postText,
         publishedAt: Math.floor(Date.now() / 1000),
         threadId: this.id,
         userId: 'rpbB8C6ifrYmNDufMERWfQUoa202'
@@ -72,8 +64,6 @@ export default {
 
       this.posts.push(post) // Add entire post to arr of posts
       this.thread.posts.push(postId) // Add post id to array of posts pertaining to the specific thread
-
-      this.newPostText = ''
     }
   }
 }
